@@ -8,31 +8,30 @@ const searchFood = () => {
         .catch(error => displayError('Something Went Wrong!! Please try again later!'));
 }
 
-
-const displaySongs = songs => {
-    const songContainer = document.getElementById('song-container');
-    songContainer.innerHTML = '';
-    songs.forEach(song => {
-        const songDiv = document.createElement('div');
-        songDiv.className = 'single-result row align-items-center my-3 p-3';
-        songDiv.innerHTML = `
+const displayFood = food => {
+    const foodContainer = document.getElementById('food-container');
+    foodContainer.innerHTML = '';
+    food.forEach(food => {
+        const foodDiv = document.createElement('div');
+        foodDiv.className = 'single-result row align-items-center my-3 p-3';
+        foodDiv.innerHTML = `
         <div class="col-md-9">
-            <h3 class="lyrics-name">${song.title}</h3>
-            <p class="author lead">Album by <span>${song.artist.name}</span></p>
+            <h3 class="food-">${food.title}</h3>
+            <p class="food">Album by <span>${food.menu.name}</span></p>
             <audio controls>
-                <source src="${song.preview}" type="audio/mpeg">
+                <source src="${food.preview}" type="audio/mpeg">
             </audio>
         </div>
         <div class="col-md-3 text-md-right text-center">
-            <button onclick="getLyric('${song.artist.name}','${song.title}')" class="btn btn-success">Get Lyrics</button>
+            <button onclick="getItem('${food.menu.name}','${food.title}')" class="btn btn-success">Get Item</button>
         </div>
         `;
-        songContainer.appendChild(songDiv);
+        foodContainer.appendChild(foodDiv);
     })
 }
 
-const getLyric = async (artist, title) => {
-    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
+const getLyric = async (menu, title) => {
+    const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast${menu}/${title}`;
     try {
         const res = await fetch(url);
         const data = await res.json();
@@ -43,15 +42,8 @@ const getLyric = async (artist, title) => {
     }
 }
 
-// const getLyric = (artist, title) => {
-//     const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
-//     fetch(url)
-//     .then(res => res.json())
-//     .then(data => displayLyrics(data.lyrics))
-// }
-
-const displayLyrics = lyrics => {
-    const lyricsDiv = document.getElementById('song-lyrics');
+const displayItem = item => {
+    const lyricsDiv = document.getElementById('food-item');
     lyricsDiv.innerText = lyrics;
 }
 
